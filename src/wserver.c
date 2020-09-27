@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include "request.h"
 #include "io_helper.h"
+#include <pthread.h>
+#include "thread.h"
 
 char default_root[] = ".";
 
@@ -28,20 +30,19 @@ int main(int argc, char *argv[]) {
     // run out of this directory
     chdir_or_die(root_dir);
 
+    pool_t* pool = pool_init(800, 10);
+
     // now, get to work
-    int listen_fd = open_listen_fd_or_die(port);
+    int listen_fd = open_listen_fd(port);
     while (1) {
 	struct sockaddr_in client_addr;
 	int client_len = sizeof(client_addr);
 	int conn_fd = accept_or_die(listen_fd, (sockaddr_t *) &client_addr, (socklen_t *) &client_len);
-	request_handle(conn_fd);
-	close_or_die(conn_fd);
+        void* arg = &conn_fd;
+    pool_add_job(pool, request_handle_t, &conn_fd);
+    //request_handle_m(*((int*)arg));
     }
+    close_or_die(listen_fd);
     return 0;
 }
 
-
-    
-
-
- 

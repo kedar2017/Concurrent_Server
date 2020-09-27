@@ -1,0 +1,44 @@
+
+typedef job job_t;
+
+struct job{
+
+  void *(*func)(void *);
+  void* arg;
+};
+
+typedef pool pool_t;
+
+struct pool{
+
+  int max_threads;
+  int active_threads;
+  cond_t empty;
+  cond_t fill;
+  mutex_t mutex;
+  int fill_ptr;
+  int use_ptr;
+  int count;
+  int MAX_BUF;
+  job_t* job_queue;
+};
+
+void create_threads(){
+
+  
+}
+
+pool_t* pool_init(int max_size, int num_threads){
+
+  
+}
+
+void pool_add_job(pool_t* pool, void* func, int* arg){
+
+  
+}
+
+void* worker_func(void* arg){
+
+  
+}

@@ -1,17 +1,13 @@
-# An admittedly primitive Makefile
-# To compile, type "make" or make "all"
-# To remove files, type "make clean"
-
 CC = gcc
 CFLAGS = -Wall
-OBJS = wserver.o wclient.o request.o io_helper.o 
+OBJS = wserver.o wclient.o request.o io_helper.o thread.o
 
-.SUFFIXES: .c .o 
+.SUFFIXES: .c .o
 
 all: wserver wclient spin.cgi
 
-wserver: wserver.o request.o io_helper.o
-	$(CC) $(CFLAGS) -o wserver wserver.o request.o io_helper.o 
+wserver: wserver.o request.o io_helper.o thread.o
+	$(CC) $(CFLAGS) -o wserver wserver.o request.o io_helper.o thread.o
 
 wclient: wclient.o io_helper.o
 	$(CC) $(CFLAGS) -o wclient wclient.o io_helper.o
