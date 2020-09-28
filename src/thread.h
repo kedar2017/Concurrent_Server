@@ -1,5 +1,6 @@
 #include <pthread.h>
 
+typedef struct client_bundle cbundle_t;
 
 typedef struct pool pool_t;
 
